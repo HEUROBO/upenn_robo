@@ -1,4 +1,4 @@
-function [ pos, R ] = RPR_fk( theta1, d2, theta3 )
+function [ R01, R12, R23 ] = RPR_fk( theta1, d2, theta3 )
 %RPR_FK Write your code here. The input to the function will be the joint
 %    angles of the robot in radians, and the extension of the prismatic joint in inches.
 %    The output includes: 
@@ -9,12 +9,14 @@ function [ pos, R ] = RPR_fk( theta1, d2, theta3 )
     %% YOUR CODE GOES HERE
     
     pos = zeros(4, 3);
+    pos = sym(pos)
     R = eye(3);
-    R01 = compute_dh_matrix(0, -3*(pi)/4, 10, theta1);
-    R12 = compute_dh_matrix(0, -(pi)/2, d2, -(pi)/2);
-    R23 = compute_dh_matrix(5, 0, 0, theta3 - (pi)/4) * compute_dh_matrix(0, (pi)/2, 0, (pi)/2) * compute_dh_matrix(0, 0, 0, (pi)/2);
+    R = sym
+    R01 = compute_dh_matrix(0, -3*pi/4, 10, theta1);
+    R12 = compute_dh_matrix(0, -pi/2, d2, -pi/2);
+    R23 = compute_dh_matrix(5, 0, 0, theta3 - pi/4) * compute_dh_matrix(0, pi/2, 0, pi/2) * compute_dh_matrix(0, 0, 0, pi/2);
     R = R01 * R12 * R23;
-    R = R(1:3, 1:3);
+    % R = R(1:3, 1:3);
     pos(1,:) = [0 0 0];
     temp = R01 * [0 0 0 1]';
     pos(2,:) = temp(1:3);

@@ -3,7 +3,7 @@ function A = compute_dh_matrix(r, alpha, d, theta)
     %% Your code goes here
     %% Robo1x_week5, slide 32
     A = eye(4);
-%     A = sym(A);
+    A = sym(A);
     A(1,1) = cos(theta);
     A(2,1) = sin(theta);
     A(3,1) = 0;
