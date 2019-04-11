@@ -96,7 +96,22 @@ while true
     
     % Visit each neighbor of the current node and update the map, distances
     % and parent tables appropriately.
-
+    numExpanded = numExpanded + 1;
+    neighbors = [[i - 1, j]; ...
+                [i + 1, j]; ...
+                [i, j - 1]; ...
+                [i, j + 1]]; 
+    for n=1:4
+        neighbor_x = neighbors(n, 1);
+        neighbor_y = neighbors(n, 2);
+        if (neighbor_x >= 1 && neighbor_x <= nrows && neighbor_y >= 1 && neighbor_y <= ncols)
+            neighbor = sub2ind(size(map), neighbor_x, neighbor_y);
+            if (map(neighbor) == 1 || map(neighbor) == 6 && distanceFromStart(neighbor) > min_dist + 1)
+                distanceFromStart(neighbor) = min_dist + 1;
+                parent(neighbor) = current;
+            end
+        end
+    end
     %*********************************************************************
 
 end
@@ -106,7 +121,6 @@ if (isinf(distanceFromStart(dest_node)))
     route = [];
 else
     route = dest_node;
-    
     while (parent(route(1)) ~= 0)
         route = [parent(route(1)), route];
     end
