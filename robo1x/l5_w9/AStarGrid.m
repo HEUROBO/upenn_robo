@@ -110,9 +110,22 @@ while true
     % Visit all of the neighbors around the current node and update the
     % entries in the map, f, g and parent arrays
     %
-
-    
-  
+    numExpanded = numExpanded + 1;
+    neighbors = [[i - 1, j]; ...
+                [i + 1, j]; ...
+                [i, j - 1]; ...
+                [i, j + 1]]; 
+    for n=1:4
+        neighbor_x = neighbors(n, 1);
+        neighbor_y = neighbors(n, 2);
+        if (neighbor_x >= 1 && neighbor_x <= nrows && neighbor_y >= 1 && neighbor_y <= ncols)
+            neighbor = sub2ind(size(map), neighbor_x, neighbor_y);
+            if (map(neighbor) == 1 || map(neighbor) == 6 && f(neighbor) > min_f + 1 + H(neighbor) - H(current))
+                f(neighbor) = min_f + 1 + H(neighbor) - H(current);
+                parent(neighbor) = current;
+            end
+        end
+    end
     %*********************************************************************
     
     
