@@ -84,9 +84,31 @@ while true
     
     %%% All of your code should be between the two lines of stars.
     % *******************************************************************
-    
-    
-    
+    neighbors = [[i - 1, j]; ...
+                [i + 1, j]; ...
+                [i, j - 1]; ...
+                [i, j + 1]]; 
+    for n=1:4
+        neighbor_x = neighbors(n, 1);
+        neighbor_y = neighbors(n, 2);
+        if neighbor_x == 0
+            neighbor_x = nrows;
+        end
+        if neighbor_x == nrows + 1
+            neighbor_x = 1;
+        end
+        if neighbor_y == 0
+            neighbor_y = ncols;
+        end
+        if neighbor_y == ncols + 1
+            neighbor_y = 1;
+        end
+        neighbor = sub2ind(size(map), neighbor_x, neighbor_y);
+        if (map(neighbor) == 1 || map(neighbor) == 6 && distances(neighbor) > min_dist + 1)
+            distances(neighbor) = min_dist + 1;
+            parent(neighbor) = current;
+        end
+    end 
     % *******************************************************************
 end
 
