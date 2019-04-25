@@ -5,7 +5,8 @@ function out = DistSixLink (x1, x2)
 % distance.
 % Note this is angle difference.
 % i.e. DistSixLink([0, 0, 0, 0, 0, 0], [360, 360, 360, 360, 360, 360]) = 0
-
-
+dis = abs(x1 - x2);
+dis = 360 * (dis > 90) - dis;
+out = sum(abs(dis));
 
 end
